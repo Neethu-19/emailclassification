@@ -21,6 +21,10 @@ class EmailResponse(BaseModel):
     masked_content: str
     entities: Dict[str, List[str]]
 
+@app.get("/")
+async def read_root():
+    return {"message": "Email Classification API is running"}
+
 @app.post("/classify", response_model=EmailResponse)
 async def classify_email(request: EmailRequest):
     try:
