@@ -1,18 +1,18 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict, List
-from utils import mask_pii
-import joblib
-import os
+import uvicorn
 from dummy_classifier import DummyClassifier
+from utils import mask_pii, extract_entities
 
-app = FastAPI(title="Email Classification API")
+app = FastAPI(
+    title="Email Classification API",
+    description="API for classifying emails and extracting PII",
+    version="1.0.0"
+)
 
-# Load the trained model
-try:
-    model = joblib.load('email_classifier.joblib')
-except:
-    raise RuntimeError("Model file not found. Please train the model first.")
+# Initialize the dummy classifier
+classifier = DummyClassifier()
 
 class EmailRequest(BaseModel):
     email_content: str
@@ -25,23 +25,19 @@ class EmailResponse(BaseModel):
 @app.post("/classify", response_model=EmailResponse)
 async def classify_email(request: EmailRequest):
     try:
-        # Mask PII in the email content
+        # Classify the email
+        classification = classifier.classify(request.email_content)
+        
+        # Mask PII and extract entities
         masked_content, entities = mask_pii(request.email_content)
         
-        # Classify the email
-        classification = model.predict([masked_content])[0]
-        
-        response = EmailResponse(
+        return EmailResponse(
             classification=classification,
             masked_content=masked_content,
             entities=entities
         )
-        
-        print("API Response:", response)
-        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
