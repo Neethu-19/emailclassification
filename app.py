@@ -28,8 +28,8 @@ async def read_root():
 @app.post("/classify", response_model=EmailResponse)
 async def classify_email(request: EmailRequest):
     try:
-        # Classify the email
-        classification = classifier.classify(request.email_content)
+        # Classify the email using the predict method
+        classification = classifier.predict([request.email_content])[0]
         
         # Mask PII and extract entities
         masked_content, entities = mask_pii(request.email_content)
