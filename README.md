@@ -1,45 +1,53 @@
 # Email Classification API
 
-This FastAPI application classifies emails into predefined categories (Incident, Request, Change, Problem) and masks PII/PCI data.
+This is a FastAPI-based API for classifying emails and extracting PII (Personally Identifiable Information).
 
-## Setup
+## Features
 
-1. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+- Email classification into categories (Incident, Request, Change, Problem)
+- PII detection and masking
+- Entity extraction
+- RESTful API interface
 
-2. Train the model:
-```bash
-python models.py
-```
+## API Endpoints
 
-3. Run the API:
-```bash
-python main.py
-```
+### POST /classify
+Classifies an email and returns the classification, masked content, and extracted entities.
 
-## API Usage
-
-Send a POST request to `/classify` with the following JSON format:
-
+**Request Body:**
 ```json
 {
     "email_content": "Your email content here"
 }
 ```
 
-The API will return:
+**Response:**
 ```json
 {
-    "classification": "category",
-    "masked_content": "email content with PII masked",
+    "classification": "string",
+    "masked_content": "string",
     "entities": {
-        "entity_type": ["masked_value1", "masked_value2"]
+        "emails": ["string"],
+        "names": ["string"],
+        "phone_numbers": ["string"]
     }
 }
 ```
 
-## Deployment
+## Local Development
 
-The application is configured for deployment on Hugging Face Spaces. The API will be available at the provided endpoint. 
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the server:
+   ```bash
+   python main.py
+   ```
+4. Access the API documentation at `http://localhost:8001/docs`
+
+## Hugging Face Spaces Deployment
+
+This API is deployed on Hugging Face Spaces. You can access it at:
+[Your Hugging Face Spaces URL will appear here after deployment] 
