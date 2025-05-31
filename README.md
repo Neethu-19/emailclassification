@@ -1,3 +1,14 @@
+---
+title: Email Classification API
+emoji: 📧
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+sdk_version: 3.1.0
+app_file: app.py
+pinned: false
+---
+
 # Email Classification API
 
 This is a FastAPI-based API for classifying emails and extracting PII (Personally Identifiable Information).
@@ -50,4 +61,4 @@ Classifies an email and returns the classification, masked content, and extracte
 ## Hugging Face Spaces Deployment
 
 This API is deployed on Hugging Face Spaces. You can access it at:
-[Your Hugging Face Spaces URL will appear here after deployment] 
+https://neethu19-emailclassification.hf.space 
