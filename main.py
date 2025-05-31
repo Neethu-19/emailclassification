@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Dict, List
 import uvicorn
 from dummy_classifier import DummyClassifier
-from utils import mask_pii, extract_entities
+from utils import mask_pii
 
 app = FastAPI(
     title="Email Classification API",
